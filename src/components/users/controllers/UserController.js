@@ -50,7 +50,10 @@ module.exports.login = async (request, response) => {
         return response.status(status).json({ message })
     }
 
-    const token = generateToken(user.id)
+    const id = user._id.toString()
+    console.log(id)
+    const token = generateToken(id)
+    console.log(token)
 
     response.cookie('token', token, {
         maxAge: 1000 * 60,

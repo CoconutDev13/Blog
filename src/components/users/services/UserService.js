@@ -5,7 +5,7 @@ module.exports.getUsers = (limit=10) => {
 }
 
 module.exports.getUserById = (id) => {
-    return User.findById(id)
+    return User.findById(id).select("-password")
 }
 
 module.exports.getUserByUsername = (username) => {

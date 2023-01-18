@@ -13,9 +13,10 @@ application.use(cookieParser())
 application.use(error)
 
 application.use('/api', require('./src/components/users/routes/UserRoute'))
+application.use('/api/blog', require('./src/components/posts/routes/PostRoute'))
 
 async function main() {
-    await database.connect(() => console.log('Database connection established'))
+    await database.connect()
     application.listen(PORT, (error) => console.log(error || `Server is running on PORT ${PORT}`))
 }
 

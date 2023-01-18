@@ -1,6 +1,7 @@
 const HttpResponse = require("../configurations/HttpResponse")
 const { getDataFromToken } = require("../utilities/secutity/token")
 
+const UserService = require('../components/users/services/UserService')
 const TokenService = require('../components/users/services/TokenService')
 
 module.exports = async (request, response, next) => {
@@ -20,8 +21,11 @@ module.exports = async (request, response, next) => {
         return response.status(status).json({message})
     }
 
-    const userId = getDataFromToken(token)
-    request.authMiddle = { userId, token }
+    const userId = getDataFromToken(token).id
+    const user = await UserService.getUserById(userId) 
+    delete user.password
+
+    request.authMiddle = { userId, user, token }
 
     next()
 }
