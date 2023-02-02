@@ -3,6 +3,7 @@ const PostService = require('../services/PostServive')
 
 module.exports.create = async (request, response) => {
     const { title, description, sections } = request.body
+    const { user } = request.authMiddle
 
     if (!title || !description || !sections) {
         const { status, message } = HttpResponse.BAD_REQUEST
@@ -16,7 +17,7 @@ module.exports.create = async (request, response) => {
     }
 
     const post = await PostService
-        .createPost({ title, description, sections })
+        .createPost({ title, description, sections, author: user._id })
         .catch(error => {
             console.error(error)
             const { status, message } = HttpResponse.INTERNAL_ERROR

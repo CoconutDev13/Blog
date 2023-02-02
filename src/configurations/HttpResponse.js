@@ -1,6 +1,6 @@
 module.exports = {
     OK: {
-        status: 201,
+        status: 200,
         message: 'OK'
     },
     CREATED: {

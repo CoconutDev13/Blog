@@ -4,16 +4,17 @@ const { getDataFromToken } = require("../utilities/secutity/token")
 const UserService = require('../components/users/services/UserService')
 const TokenService = require('../components/users/services/TokenService')
 
+/**
+ * That middleware authenticate user using JWT token that is taken from cookies
+ */
 module.exports = async (request, response, next) => {
-    const authHeader = request.headers['authorization']
-    
-    if(!authHeader) {
+    console.log(request.cookies)
+    const { token } = request.cookies
+    if(!token) {
         const { status, message } = HttpResponse.UNAUTHORIZED
         return response.status(status).json({message})
     }
 
-    const token = authHeader.split(' ')[1]
-    
     const bannedToken = await TokenService.getToken(token)
     
     if(bannedToken) {
@@ -23,7 +24,6 @@ module.exports = async (request, response, next) => {
 
     const userId = getDataFromToken(token).id
     const user = await UserService.getUserById(userId) 
-    delete user.password
 
     request.authMiddle = { userId, user, token }
 

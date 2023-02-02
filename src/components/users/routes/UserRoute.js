@@ -8,5 +8,6 @@ router.post('/signup', UserController.signup)
 router.post('/login', UserController.login)
 router.post('/logout', authMiddleware, UserController.logout)
 router.put('/setbio', authMiddleware, UserController.setBio)
+router.get('/userdata', authMiddleware, UserController.getUser)
 
 module.exports = router
